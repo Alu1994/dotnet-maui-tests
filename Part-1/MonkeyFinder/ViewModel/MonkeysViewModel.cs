@@ -39,6 +39,9 @@ public partial class MonkeysViewModel : BaseViewModel
         _geolocation = geolocation;
     }
 
+    [ObservableProperty]
+    bool isRefreshing;
+
     [ICommand]
     async Task GetClosestMonkeyAsync()
     {
@@ -118,6 +121,7 @@ public partial class MonkeysViewModel : BaseViewModel
         finally
         {
             IsBusy = false;
+            IsRefreshing = false;
         }
     }
 }
