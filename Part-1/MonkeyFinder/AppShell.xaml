@@ -5,9 +5,6 @@
              xmlns:view="clr-namespace:MonkeyFinder.View"
              Title="Monkeys"
              FlyoutBehavior="Disabled">
-
-
-
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
@@ -24,13 +21,9 @@
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="ShellItem" ApplyToDerivedTypes="True" />
         </ResourceDictionary>
     </Shell.Resources>
-
-
-
     <ShellContent
         Shell.NavBarIsVisible="true"
         Title="Monkeys"
         ContentTemplate="{DataTemplate view:MainPage}"
         Route="MainPage" />
-
 </Shell>

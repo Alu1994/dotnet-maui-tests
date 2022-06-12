@@ -2,29 +2,6 @@
 
 namespace MonkeyFinder.Services;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 public class MonkeyService
 {
     HttpClient httpClient;

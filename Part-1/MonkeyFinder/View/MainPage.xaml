@@ -8,21 +8,16 @@
              Title="{Binding Title}"
              ios:Page.UseSafeArea="True"
              x:Class="MonkeyFinder.View.MainPage">    
-    <Grid ColumnDefinitions="*,*"
-          ColumnSpacing="5"
-          RowDefinitions="*,Auto"
-          RowSpacing="0">
-
-        <RefreshView Grid.ColumnSpan="2"
+    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+        <RefreshView Grid.ColumnSpan="3"
                      Command="{Binding GetMonkeysCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <CollectionView BackgroundColor="Transparent"
                             ItemsSource="{Binding Monkeys}"
                             SelectionMode="None">
-                <!--<CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" 
-                        Span="{OnIdiom Desktop=1, Default=3}" />
-                </CollectionView.ItemsLayout>-->
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="{OnIdiom Desktop=4, Default=1}" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <StackLayout VerticalOptions="Center" 
                                  HorizontalOptions="Center"
@@ -38,54 +33,52 @@
                     <DataTemplate x:DataType="model:Monkey">
                         <Grid Padding="10">
                             <Frame HeightRequest="125" 
-                                   Padding="0"
-                                   Style="{StaticResource CardView}">
+                                   Padding="0" Style="{StaticResource CardView}">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer CommandParameter="{Binding .}"
-                                        Command="{
-                                        Binding Source={
-                                            RelativeSource AncestorType={
+                                        Command="{Binding Source={RelativeSource AncestorType={
                                                 x:Type viewmodel:MonkeysViewModel}}, Path=GoToDetailsCommand} "/>
                                 </Frame.GestureRecognizers>
-                                <Grid Padding="0"
-                                      ColumnDefinitions="125, *">
-                                    <Image Aspect="AspectFill" 
-                                           Source="{Binding Image}"
-                                           WidthRequest="125"
+                                <Grid 
+                                    Padding="0" ColumnDefinitions="125, *">
+                                    <Image Aspect="AspectFill" Source="{Binding Image}" 
+                                           WidthRequest="125" 
                                            HeightRequest="125" />
-
-                                    <VerticalStackLayout Grid.Column="1"
-                                                         Padding="10"
-                                                         VerticalOptions="Center">
+                                    <VerticalStackLayout 
+                                        Grid.Column="1" Padding="10" VerticalOptions="Center">
                                         <Label Text="{Binding Name}"
                                                Style="{StaticResource LargeLabel}" />
                                         <Label Text="{Binding Location}"
                                                Style="{StaticResource MediumLabel}" />
                                     </VerticalStackLayout>
-                                </Grid>
-                            
+                                </Grid>                            
                             </Frame>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </RefreshView>
-        
+        </RefreshView>        
         <Button Text="Get Monkeys" 
                 Command="{Binding GetMonkeysCommand}"
                 IsEnabled="{Binding IsNotBusy}"
                 Grid.Row="1"
                 Margin="8"
+                Grid.Column="0"
                 Style="{StaticResource ButtonOutline}" />
-
-        <Button Text="Find Closest" 
-                Command="{Binding GetClosestMonkeyCommand}"
+        <Button Text="Create Monkey" 
+                Command="{Binding CreateMonkeyCommand}"
                 IsEnabled="{Binding IsNotBusy}"
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="8"
                 Style="{StaticResource ButtonOutline}" />
-
+        <Button Text="Find Closest" 
+                Command="{Binding GetClosestMonkeyCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="8"
+                Style="{StaticResource ButtonOutline}" />
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="FillAndExpand"

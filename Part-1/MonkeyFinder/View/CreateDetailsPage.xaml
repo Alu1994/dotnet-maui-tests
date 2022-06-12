@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MonkeyFinder.CreateDetailsPage"
+             xmlns:viewmodel="clr-namespace:MonkeyFinder.ViewModel"
+             x:DataType="viewmodel:CreateMonkeyDetailsViewModel"
+             Title="Create Monkey">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Monkey Name:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Name}" />
+            <Label Text="Latitude:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Latitude}" />
+            <Label Text="Longitude:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Longitude}" />
+            <Label Text="Population:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Population}" />
+            <Label Text="Location:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Location}" />
+            <Label Text="Details:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Details}" />
+            <Label Text="Image Path:" Style="{StaticResource MediumLabel}" />
+            <Entry Text="{Binding Monkey.Image}" />
+
+            <Button Text="Create"
+                    Command="{Binding CreateMonkeyCommand}"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    Margin="8"
+                    Style="{StaticResource ButtonOutline}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

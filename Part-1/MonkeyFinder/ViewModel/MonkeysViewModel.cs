@@ -2,34 +2,13 @@
 
 namespace MonkeyFinder.ViewModel;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 public partial class MonkeysViewModel : BaseViewModel
 {
     IConnectivity _connectivity;
     IGeolocation _geolocation;
     MonkeyService _monkeyService;
 
-    public ObservableCollection<Monkey> Monkeys { get; } = new();
+    public ObservableCollection<Monkey> Monkeys => MauiProgram.MonkeysList;
 
     public MonkeysViewModel(MonkeyService monkeyService, IConnectivity connectivity, IGeolocation geolocation)
     {
@@ -123,5 +102,11 @@ public partial class MonkeysViewModel : BaseViewModel
             IsBusy = false;
             IsRefreshing = false;
         }
+    }
+
+    [ICommand]
+    async Task CreateMonkeyAsync()
+    {
+        await Shell.Current.GoToAsync($"{nameof(CreateDetailsPage)}", true);
     }
 }
