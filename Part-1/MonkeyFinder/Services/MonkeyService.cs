@@ -6,7 +6,7 @@ public class MonkeyService
 {
     HttpClient _httpClient;
     IReadOnlyCollection<Monkey> _monkeys;
-    const string URL = "https://17e3-2804-431-cff2-d841-6052-bd3c-a350-8a45.ngrok.io/monkeys";
+    const string URL = "https://96b3-2804-431-cff2-d841-b42c-a2a8-c1d4-fcb.ngrok.io/monkeys";
 
     public MonkeyService()
     {
@@ -22,10 +22,12 @@ public class MonkeyService
         return _monkeys;
     }
 
-    public async Task<bool> CreateMonkeyAsync(Monkey monkey)
+    public async Task<(bool, Monkey)> CreateMonkeyAsync(Monkey monkey)
     {
-        if (monkey is null) return false;
+        if (monkey is null) return (false, default);
         var response = await _httpClient.PostAsJsonAsync(URL, monkey);
-        return response.IsSuccessStatusCode;
+        if (response.IsSuccessStatusCode is false) return (false, default);
+        var monkeyResult = await response.Content.ReadFromJsonAsync<Monkey>();
+        return (response.IsSuccessStatusCode, monkeyResult);
     }
 }

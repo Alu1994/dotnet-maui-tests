@@ -17,9 +17,11 @@ public partial class CreateMonkeyDetailsViewModel : BaseViewModel
     [ICommand]
     async Task CreateMonkeyAsync()
     {
-        var isSuccess = await _monkeyService.CreateMonkeyAsync(monkey);
+        var (isSuccess, monkeyReturn) = await _monkeyService.CreateMonkeyAsync(monkey);
         if (isSuccess is false) return;
-        MauiProgram.MonkeysList.Add(monkey);
-        await Shell.Current.GoToAsync("..", true);
+        await Shell.Current.GoToAsync("..", true, new Dictionary<string, object>
+        {
+            ["MonkeyReturn"] = monkeyReturn
+        });
     }
 }

@@ -5,12 +5,8 @@ namespace MonkeyFinder;
 
 public static class MauiProgram
 {
-	public static ObservableCollection<Monkey> MonkeysList { get; private set; }
-
 	public static MauiApp CreateMauiApp()
 	{
-        MonkeysList = new ObservableCollection<Monkey>();
-
         var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()

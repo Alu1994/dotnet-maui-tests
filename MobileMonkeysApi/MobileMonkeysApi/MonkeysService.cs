@@ -14,7 +14,7 @@ public sealed class MonkeysService : IMonkeysService
         return await connection.QueryAsync<Monkey>(command);
     }
 
-    public async Task<bool> PostMonkeys(Monkey monkey, CancellationToken cancellationToken)
+    public async Task<Monkey?> PostMonkeys(Monkey monkey, CancellationToken cancellationToken)
     {
         try
         {
@@ -27,13 +27,16 @@ public sealed class MonkeysService : IMonkeysService
 ,[Image]
 ,[Population]
 ,[Latitude]
-,[Longitude]) VALUES (@Name, @Location, @Details, @Image, @Population, @Latitude, @Longitude)",
+,[Longitude]) VALUES (@Name, @Location, @Details, @Image, @Population, @Latitude, @Longitude); 
+SELECT SCOPE_IDENTITY();",
                 parameters: monkey, cancellationToken: cancellationToken);
-            return await connection.ExecuteAsync(command) > 0;
+            var id = await connection.ExecuteScalarAsync<int>(command);
+            monkey.Id = id;
+            return monkey;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 }
@@ -41,5 +44,5 @@ public sealed class MonkeysService : IMonkeysService
 public interface IMonkeysService
 {
     Task<IEnumerable<Monkey>> GetMonkeys(CancellationToken cancellationToken);
-    Task<bool> PostMonkeys(Monkey monkey, CancellationToken cancellationToken);
+    Task<Monkey?> PostMonkeys(Monkey monkey, CancellationToken cancellationToken);
 }

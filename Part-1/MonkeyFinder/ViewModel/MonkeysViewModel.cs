@@ -2,13 +2,19 @@
 
 namespace MonkeyFinder.ViewModel;
 
+[QueryProperty("CreatedMonkey", "CreatedMonkey")]
 public partial class MonkeysViewModel : BaseViewModel
 {
     IConnectivity _connectivity;
     IGeolocation _geolocation;
     MonkeyService _monkeyService;
 
-    public ObservableCollection<Monkey> Monkeys => MauiProgram.MonkeysList;
+    [ObservableProperty]
+    bool isRefreshing;
+    [ObservableProperty]
+    Monkey createdMonkey;
+
+    public ObservableCollection<Monkey> Monkeys { get; } = new();
 
     public MonkeysViewModel(MonkeyService monkeyService, IConnectivity connectivity, IGeolocation geolocation)
     {
@@ -17,9 +23,6 @@ public partial class MonkeysViewModel : BaseViewModel
         _connectivity = connectivity;
         _geolocation = geolocation;
     }
-
-    [ObservableProperty]
-    bool isRefreshing;
 
     [ICommand]
     async Task GetClosestMonkeyAsync()
@@ -108,5 +111,11 @@ public partial class MonkeysViewModel : BaseViewModel
     async Task CreateMonkeyAsync()
     {
         await Shell.Current.GoToAsync($"{nameof(CreateDetailsPage)}", true);
+    }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        if(createdMonkey is not null) Monkeys.Add(createdMonkey);
+        base.OnPropertyChanged(e);
     }
 }
