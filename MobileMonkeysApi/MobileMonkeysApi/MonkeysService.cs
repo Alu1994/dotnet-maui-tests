@@ -3,6 +3,12 @@ using System.Data.SqlClient;
 
 namespace MobileMonkeysApi;
 
+public interface IMonkeysService
+{
+    Task<IEnumerable<Monkey>> GetMonkeys(CancellationToken cancellationToken);
+    Task<Monkey?> PostMonkeys(Monkey monkey, CancellationToken cancellationToken);
+}
+
 public sealed class MonkeysService : IMonkeysService
 {
     public async Task<IEnumerable<Monkey>> GetMonkeys(CancellationToken cancellationToken)
@@ -39,10 +45,4 @@ SELECT SCOPE_IDENTITY();",
             return null;
         }
     }
-}
-
-public interface IMonkeysService
-{
-    Task<IEnumerable<Monkey>> GetMonkeys(CancellationToken cancellationToken);
-    Task<Monkey?> PostMonkeys(Monkey monkey, CancellationToken cancellationToken);
 }
