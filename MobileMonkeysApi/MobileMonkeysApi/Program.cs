@@ -29,8 +29,14 @@ app.MapGet("/monkeys", async (IMonkeysService monkeysService, CancellationToken 
 
 app.MapPost("/monkeys", async (IMonkeysService monkeysService, Monkey monkey, CancellationToken cancellationToken) =>
 {
-    return await monkeysService.PostMonkeys(monkey, cancellationToken);
+    return await monkeysService.PostMonkey(monkey, cancellationToken);
 })
-.WithName("PostMonkeys");
+.WithName("PostMonkey");
+
+app.MapPut("/monkeys", async (IMonkeysService monkeysService, Monkey monkey, CancellationToken cancellationToken) =>
+{
+    return await monkeysService.PutMonkey(monkey, cancellationToken);
+})
+.WithName("PutMonkey");
 
 app.Run();

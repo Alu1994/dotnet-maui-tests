@@ -6,7 +6,8 @@ namespace MobileMonkeysApi;
 public interface IMonkeysService
 {
     Task<IEnumerable<Monkey>> GetMonkeys(CancellationToken cancellationToken);
-    Task<Monkey?> PostMonkeys(Monkey monkey, CancellationToken cancellationToken);
+    Task<Monkey?> PostMonkey(Monkey monkey, CancellationToken cancellationToken);
+    Task<Monkey> PutMonkey(Monkey monkey, CancellationToken cancellationToken);
 }
 
 public sealed class MonkeysService : IMonkeysService
@@ -20,7 +21,7 @@ public sealed class MonkeysService : IMonkeysService
         return await connection.QueryAsync<Monkey>(command);
     }
 
-    public async Task<Monkey?> PostMonkeys(Monkey monkey, CancellationToken cancellationToken)
+    public async Task<Monkey?> PostMonkey(Monkey monkey, CancellationToken cancellationToken)
     {
         try
         {
@@ -44,5 +45,32 @@ SELECT SCOPE_IDENTITY();",
         {
             return null;
         }
+    }
+
+    public async Task<Monkey> PutMonkey(Monkey monkey, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var connectionString = "Server=MATHEUS-PC\\SQLEXPRESS;Database=MonkeysDB;Trusted_Connection=True;MultipleActiveResultSets=true";
+            using var connection = new SqlConnection(connectionString);
+
+            var command = new CommandDefinition(@"UPDATE [dbo].[Monkeys] SET 
+ [Name] = @Name
+,[Location] = @Location
+,[Details] = @Details
+,[Image] = @Image
+,[Population] = @Population
+,[Latitude] = @Latitude
+,[Longitude] = @Longitude
+WHERE [Id] = @Id;",
+                parameters: monkey, cancellationToken: cancellationToken);
+            await connection.ExecuteAsync(command);
+        }
+        catch(Exception ex)
+        {
+            string x = ex.Message;
+        }
+        
+        return monkey;
     }
 }

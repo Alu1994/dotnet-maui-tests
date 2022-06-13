@@ -31,4 +31,14 @@ public partial class MonkeyDetailsViewModel : BaseViewModel
                 $"Unable to open map: {ex.Message}", "OK");
         }
     }
+
+    [ICommand]
+    async Task EditMonkeyAsync()
+    {
+        await Shell.Current.GoToAsync("..", true);
+        await Shell.Current.GoToAsync(nameof(EditDetailsPage), true, new Dictionary<string, object>
+        {
+            ["EditableMonkey"] = monkey
+        });
+    }
 }

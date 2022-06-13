@@ -18,11 +18,13 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<DetailsPage>();
         builder.Services.AddTransient<CreateDetailsPage>();
+        builder.Services.AddTransient<EditDetailsPage>();
 
         builder.Services.AddSingleton<MonkeyService>();
         builder.Services.AddSingleton<MonkeysViewModel>();
         builder.Services.AddTransient<MonkeyDetailsViewModel>();
         builder.Services.AddTransient<CreateMonkeyDetailsViewModel>();
+        builder.Services.AddTransient<EditMonkeyDetailsViewModel>();
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
         builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);

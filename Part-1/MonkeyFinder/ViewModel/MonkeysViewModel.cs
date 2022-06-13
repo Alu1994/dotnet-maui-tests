@@ -3,6 +3,7 @@
 namespace MonkeyFinder.ViewModel;
 
 [QueryProperty("CreatedMonkey", "CreatedMonkey")]
+[QueryProperty("EditedMonkey", "EditedMonkey")]
 public partial class MonkeysViewModel : BaseViewModel
 {
     IConnectivity _connectivity;
@@ -13,6 +14,8 @@ public partial class MonkeysViewModel : BaseViewModel
     bool isRefreshing;
     [ObservableProperty]
     Monkey createdMonkey;
+    [ObservableProperty]
+    Monkey editedMonkey;
 
     public ObservableCollection<Monkey> Monkeys { get; } = new();
 
@@ -115,7 +118,24 @@ public partial class MonkeysViewModel : BaseViewModel
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        if(createdMonkey is not null) Monkeys.Add(createdMonkey);
+        if (createdMonkey is not null)
+        {
+            if (Monkeys.Any(x => x.Id == createdMonkey.Id))
+            {
+                createdMonkey = null;
+                editedMonkey = null;
+                base.OnPropertyChanged(e);
+                return;
+            }
+            Monkeys.Add(new Monkey(createdMonkey));
+        }
+        if (editedMonkey is not null)
+        {
+            Monkeys.Remove(Monkeys.FirstOrDefault(x => x.Id == editedMonkey.Id));
+            Monkeys.Add(new Monkey(editedMonkey));
+        }
+        CreatedMonkey = null;
+        EditedMonkey = null;
         base.OnPropertyChanged(e);
     }
 }

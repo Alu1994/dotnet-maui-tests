@@ -2,6 +2,7 @@
 
 namespace MonkeyFinder.ViewModel;
 
+[QueryProperty("Monkey", "Monkey")]
 public partial class CreateMonkeyDetailsViewModel : BaseViewModel
 {
     [ObservableProperty]
@@ -11,7 +12,7 @@ public partial class CreateMonkeyDetailsViewModel : BaseViewModel
     public CreateMonkeyDetailsViewModel(MonkeyService monkeyService)
     {
         _monkeyService = monkeyService;
-        monkey = new Monkey();
+        monkey = new();
     }
 
     [ICommand]
@@ -19,9 +20,17 @@ public partial class CreateMonkeyDetailsViewModel : BaseViewModel
     {
         var (isSuccess, monkeyReturn) = await _monkeyService.CreateMonkeyAsync(monkey);
         if (isSuccess is false) return;
+
         await Shell.Current.GoToAsync("..", true, new Dictionary<string, object>
         {
-            ["MonkeyReturn"] = monkeyReturn
+            ["CreatedMonkey"] = new Monkey(monkeyReturn)
         });
+        monkey = null;
+        monkeyReturn = null;
+    }
+
+    void FuckYou()
+    {
+        monkey = null;
     }
 }
